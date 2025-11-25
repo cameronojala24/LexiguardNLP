@@ -1,23 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [text, setText] = useState("");
+  const [prediction, setPrediction] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await response.json();
+      setPrediction(data.prediction);
+    } catch (err) {
+      console.error("Error calling prediction API:", err);
+      setPrediction("Error contacting server");
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h2>Spam Text Classifier</h2>
+
+      <textarea
+        rows="5"
+        cols="50"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Enter text here..."
+      />
+
+      <br />
+
+      <button onClick={handleSubmit}>Predict</button>
+
+      {prediction !== "" && (
+        <div
+          style={{
+            marginTop: "24px",
+            padding: "16px",
+            borderRadius: "8px",
+            borderLeft: prediction === "1" ? "4px solid #d72638" : "4px solid #2a9d8f",
+            background: prediction === "1" ? "#ffe6e9" : "#e8fff7",
+            color: prediction === "1" ? "#8b0f1c" : "#145c3a"
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <strong>Prediction:</strong>{" "}
+          {prediction === "1" ? "Spam ❌" : "Not Spam ✔️"}
+        </div>
+      )}
     </div>
   );
 }
