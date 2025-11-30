@@ -6,11 +6,13 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
 
+  deploy-backend:
+    name: Deploy Backend (server/)
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[force-backend]') || contains(join(github.event.commits.*.modified, ','), 'server/') || contains(join(github.event.commits.*.added, ','), 'server/') || contains(join(github.event.commits.*.removed, ','), 'server/')
     steps:
-      - name: Call Render Deploy for Backend
+      - name: Trigger Render Deploy for Server
         run: |
           curl -X POST \
             -H "Accept: application/json" \
@@ -19,7 +21,12 @@ jobs:
             -d '{}' \
             https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID_SERVER }}/deploys
 
-      - name: Call Render Deploy for Frontend
+  deploy-frontend:
+    name: Deploy Frontend (client/)
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[force-client]') || contains(join(github.event.commits.*.modified, ','), 'client/') || contains(join(github.event.commits.*.added, ','), 'client/') || contains(join(github.event.commits.*.removed, ','), 'client/')
+    steps:
+      - name: Trigger Render Deploy for Client
         run: |
           curl -X POST \
             -H "Accept: application/json" \
