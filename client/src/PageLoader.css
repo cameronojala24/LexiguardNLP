@@ -1,0 +1,115 @@
+/* ===== Page Loader Overlay ===== */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ===== Split Text Container ===== */
+.split-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.text-left,
+.text-right {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 800;
+  color: #2a9d8f;
+  letter-spacing: 0px;
+  white-space: nowrap;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Phase: initial - Text together as LEXIGUARD */
+.page-loader.initial .text-left,
+.page-loader.initial .text-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Phase: split - Text moves apart to make room */
+.page-loader.split .text-left {
+  transform: translateX(-320px);
+}
+
+.page-loader.split .text-right {
+  transform: translateX(320px);
+}
+
+/* Phase: reveal - Text continues moving and starts fading */
+.page-loader.reveal .text-left {
+  transform: translateX(-400px);
+  opacity: 0;
+}
+
+.page-loader.reveal .text-right {
+  transform: translateX(400px);
+  opacity: 0;
+}
+
+/* ===== Mobile Adjustments ===== */
+@media (max-width: 768px) {
+  .text-left,
+  .text-right {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+
+  .page-loader.split .text-left {
+    transform: translateX(-180px);
+  }
+
+  .page-loader.split .text-right {
+    transform: translateX(180px);
+  }
+
+  .page-loader.reveal .text-left {
+    transform: translateX(-250px);
+    opacity: 0;
+  }
+
+  .page-loader.reveal .text-right {
+    transform: translateX(250px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-left,
+  .text-right {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+
+  .page-loader.split .text-left {
+    transform: translateX(-120px);
+  }
+
+  .page-loader.split .text-right {
+    transform: translateX(120px);
+  }
+
+  .page-loader.reveal .text-left {
+    transform: translateX(-160px);
+    opacity: 0;
+  }
+
+  .page-loader.reveal .text-right {
+    transform: translateX(160px);
+    opacity: 0;
+  }
+}
