@@ -1,7 +1,8 @@
 # Lexiguard
 
-A machine learning–powered text spam detection system built for the final NLP project.
-Lexiguard includes multiple classifiers, a Flask API server, and a React-based web client for real-time predictions.
+A machine learning–powered text spam detection system built for the final NLP project, designed to help the La Alianza Hispana community identify and protect against spam messages.
+
+Lexiguard includes multiple classifiers, a Flask API server, a React-based web client for real-time predictions, and an integrated digital literacy education component.
 
 ## Deployment
 
@@ -9,7 +10,13 @@ The application is currently deployed on Render: https://lexiguardnlp.onrender.c
 
 **Note:** Due to free tier memory constraints (512MB), the deployed version only runs Logistic Regression. For full 4-model functionality, run locally.
 
-## Models Included
+## Demo Video
+
+https://youtu.be/gk5xpqXjcR0
+
+## Features
+
+### Spam Detection Models
 
 | Model | Description |
 |---|---|
@@ -19,6 +26,17 @@ The application is currently deployed on Render: https://lexiguardnlp.onrender.c
 | Transformer | DistilBERT fine-tuned model (99.28% accuracy) |
 
 The Flask API supports all 4 models with dynamic switching via dropdown selector.
+
+### Digital Literacy Education
+
+Designed specifically for elderly members of the La Alianza Hispana community, Lexiguard includes:
+- **Real-time spam indicator detection** - Identifies 8 warning signs in messages (urgency, free prizes, ALL CAPS, suspicious links, etc.)
+- **Interactive education modal** - Explains why a message is spam and what specific red flags were detected
+- **Bilingual support (EN/ES)** - Full Spanish translations for accessibility
+- **Safety tips** - Actionable advice to protect against scams (never share passwords, verify sender identity, etc.)
+- **Visual feedback** - Animated text box pulses (green for safe, red for spam) to reinforce learning
+
+The education component directly supports service learning objectives by teaching digital literacy skills to vulnerable community members.
 
 ## Steps to run:
 
@@ -32,7 +50,7 @@ git lfs install
 git lfs pull
 ```
 
-### Env
+### Environment Setup
 
 Create a `.env` file in `client/` with:
 
@@ -60,3 +78,16 @@ npm start
 ```
 
 The frontend will start on: http://localhost:3000
+
+## Project Structure
+
+```
+LexiguardNLP/
+├── client/               # React frontend
+├── server/              # Flask API
+│   ├── app.py          # Multi-model API server
+│   ├── *.pkl           # Serialized models & vectorizers
+│   ├── *.keras         # Neural network model
+│   └── transformer_*/  # DistilBERT model & tokenizer
+└── models/             # Jupyter notebooks for training
+```
